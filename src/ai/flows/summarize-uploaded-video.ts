@@ -117,7 +117,8 @@ const summarizeUploadedVideoFlow = ai.defineFlow(
     const sceneSummaries: SummarizeUploadedVideoOutput['sceneSummaries'] = [];
     for (let i = 0; i < 3; i++) {
       const timestamp = i * 10; // Example: Summarize every 10 seconds.
-      const {output: summary} = await summarizeVideoPrompt(input);
+      const response = await ai.generate({prompt: `Summarize this video:`, media: {url: input.videoDataUri}});
+      const summary = response.text || 'No summary could be generated for this scene.';
       if (!summary) {
         throw new Error('no summary returned');
       }
